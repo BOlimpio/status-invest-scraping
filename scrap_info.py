@@ -4,7 +4,7 @@ import pandas as pd
 import openpyxl
 from openpyxl.styles import PatternFill
 
-def scrape_stock_info(stock_code):
+def scrape_fii_info(stock_code):
     url = f"https://statusinvest.com.br/fundos-imobiliarios/{stock_code}"
     headers = {
       'accept': '*/*',
@@ -127,7 +127,7 @@ fii_codes = ['HGLG11','JSRE11']
 # Scrape data for each FII and store it in a list
 fii_data = []
 for code in fii_codes:
-    stock_info = scrape_stock_info(code)
+    stock_info = scrape_fii_info(code)
     if stock_info:
         fii_data.append(stock_info)
 

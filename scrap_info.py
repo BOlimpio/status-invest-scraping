@@ -52,14 +52,15 @@ def scrape_stock_info(stock_code):
                 print(f"Could not find 'Dividend Yield' field for stock {stock_code}")
                 dy = None
             
-            # Extracting new fields for 'Último Rendimento'
+            # Extracting new fields for 'Último rendimento'
             ultimo_rendimento_element = soup.find(text='Último rendimento')
             if ultimo_rendimento_element:
                 ultimo_rendimento_value = ultimo_rendimento_element.find_next(class_='value').text.strip()
                 ultimo_rendimento_percentage = ultimo_rendimento_element.find_next(class_='sub-value').text.strip('%')
-                
-                ultima_cotacao_base = ultimo_rendimento_element.find_next(class_='sub-info').find_next(class_='sub-value').text.strip()
-                ultima_data_pagamento = ultimo_rendimento_element.find_next(class_='sub-info').find_next(class_='sub-value').find_next(class_='sub-value').text.strip()
+
+                ultimo_rendimento_subinfo = ultimo_rendimento_element.find_next(class_='sub-info')
+                ultima_cotacao_base = ultimo_rendimento_subinfo.find_next(text='Cotação base').find_next(class_='sub-value').text.strip()
+                ultima_data_pagamento = ultimo_rendimento_subinfo.find_next(text='Data Pagamento').find_next(class_='sub-value').text.strip()
             else:
                 print(f"Could not find 'Último rendimento' field for stock {stock_code}")
                 ultimo_rendimento_value = None
@@ -68,12 +69,14 @@ def scrape_stock_info(stock_code):
                 ultima_data_pagamento = None
 
             # Extracting new fields for 'Próximo Rendimento'
-            ultimo_rendimento_element = soup.find(text='Próximo Rendimento')
-            if ultimo_rendimento_element:
-                proximo_rendimento_value = ultimo_rendimento_element.find_next(class_='value').text.strip()
-                proximo_rendimento_percentage = ultimo_rendimento_element.find_next(class_='sub-value').text.strip('%')
-                proxima_cotacao_base = ultimo_rendimento_element.find_next(class_='sub-info').find_next(class_='sub-value').text.strip()
-                proxima_data_pagamento = ultimo_rendimento_element.find_next(class_='sub-info').find_next(class_='sub-value').find_next(class_='sub-value').text.strip()
+            proximo_rendimento_element = soup.find(text='Próximo Rendimento')
+            if proximo_rendimento_element:
+                proximo_rendimento_value = proximo_rendimento_element.find_next(class_='value').text.strip()
+                proximo_rendimento_percentage = proximo_rendimento_element.find_next(class_='sub-value').text.strip('%')
+
+                proximo_rendimento_subinfo = proximo_rendimento_element.find_next(class_='sub-info')
+                proxima_cotacao_base = proximo_rendimento_subinfo.find_next(text='Cotação base').find_next(class_='sub-value').text.strip()
+                proxima_data_pagamento = proximo_rendimento_subinfo.find_next(text='Data Pagamento').find_next(class_='sub-value').text.strip()
             else:
                 print(f"Could not find 'Próximo Rendimento' field for stock {stock_code}")
                 proximo_rendimento_value = None
@@ -83,7 +86,7 @@ def scrape_stock_info(stock_code):
             
             return {'Code': stock_code, 'Price': price, 'P/VP': p_vp, 'DY %': dy,
                     'Último Rendimento': ultimo_rendimento_value, 'Último Rendimento %': ultimo_rendimento_percentage, 'Ultima Cotação base' : ultima_cotacao_base, 'Ultima data de pagamento' : ultima_data_pagamento,
-                    'Próximo Rendimento': proximo_rendimento_value, 'Próximo Rendimento %': proximo_rendimento_percentage, 'Ultima Cotação base' : proxima_cotacao_base, 'Ultima data de pagamento' : proxima_data_pagamento}
+                    'Próximo Rendimento': proximo_rendimento_value, 'Próximo Rendimento %': proximo_rendimento_percentage, 'Próxima Cotação base' : proxima_cotacao_base, 'Próxima data de pagamento' : proxima_data_pagamento}
         
         except AttributeError as e:
             print(f"Failed to extract information for stock {stock_code}. Error: {e}")

@@ -1,6 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
+import openpyxl
+from openpyxl.styles import PatternFill
 
 def scrape_stock_info(stock_code):
     url = f"https://statusinvest.com.br/fundos-imobiliarios/{stock_code}"
@@ -19,15 +21,10 @@ def scrape_stock_info(stock_code):
     }
     
     response = requests.get(url, headers=headers)
-
-
         
 
     if response.status_code == 200:
         soup = BeautifulSoup(response.content, 'html.parser')
-
-        with open(f'{stock_code}_response.html', 'w') as file:
-            file.write(response.content.decode('utf-8'))
         
         # Extracting required information from the website
         try:
@@ -99,12 +96,33 @@ def save_to_excel(data, filename):
     try:
         df = pd.DataFrame(data)
         df.to_excel(filename, index=False)
+
+        # Open the workbook
+        workbook = openpyxl.load_workbook(filename)
+
+        # Get the active sheet
+        sheet = workbook.active
+
+        # Apply styling to "P/VP" column based on the rule
+        for row in sheet.iter_rows(min_row=2, min_col=3, max_col=3):
+            for cell in row:
+                if cell.value is not None:
+                    p_vp_value = float(cell.value.replace(',', '.'))
+                    if p_vp_value > 1:
+                        cell.fill = PatternFill(start_color="FFFF00", end_color="FFFF00", fill_type="solid")
+                    elif p_vp_value < 1:
+                        cell.fill = PatternFill(start_color="00FF00", end_color="00FF00", fill_type="solid")
+
+        # Save the workbook
+        workbook.save(filename)
+
         print(f"Data saved to {filename}")
     except Exception as e:
         print(f"Failed to save data to Excel file. Error: {e}")
 
+
 # List of FII codes to retrieve information for
-fii_codes = ['JSRE11']
+fii_codes = ['HGLG11','JSRE11']
 
 # Scrape data for each FII and store it in a list
 fii_data = []

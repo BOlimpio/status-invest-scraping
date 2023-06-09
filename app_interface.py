@@ -3,21 +3,19 @@ import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLineEdit, QPushButton, QLabel, QMessageBox, QScrollArea, QSizePolicy
 from PyQt5.QtCore import Qt, QSize
 from PyQt5.QtGui import QIcon, QPixmap, QPainter, QBrush, QColor, QFont
+from scrap_info import save_to_excel,scrape_fii_info
 
 class StockInfoApp(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Stock Info App")
-        self.setWindowIcon(QIcon("icon.png"))  # Replace "icon.png" with your desired icon file
+        self.setWindowIcon(QIcon("image/money-bag.png"))  # Replace "icon.png" with your desired icon file
         self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)  # Set window flags to disable maximize button
         self.fii_codes = []
 
         self.initUI()
 
     def initUI(self):
-        # Create the background image
-        self.background_image = QPixmap("background.jpg")  # Replace "background.jpg" with your desired background image file
-
         # Create the label
         self.label = QLabel("Enter FII codes:")
         self.label.setObjectName("titleLabel")
@@ -167,7 +165,16 @@ class StockInfoApp(QWidget):
 
     def get_stock_info(self):
         if len(self.fii_codes) > 0:
-            # TODO: Implement your logic to scrape and save the stock information
+            # Scrape data for each FII and store it in a list
+            fii_data = []
+            for code in self.fii_codes:
+                stock_info = scrape_fii_info(code)
+                if stock_info:
+                    fii_data.append(stock_info)
+
+            # Save the data in an Excel file
+            save_to_excel(fii_data, 'stock_info.xlsx')
+
             self.show_message_box("Stock Info", "Data saved to stock_info.xlsx")
         else:
             self.show_message_box("Stock Info", "Please enter FII codes")
@@ -178,10 +185,6 @@ class StockInfoApp(QWidget):
         msg_box.setText(message)
         msg_box.setIcon(QMessageBox.Information)
         msg_box.exec_()
-
-    def paintEvent(self, event):
-        painter = QPainter(self)
-        painter.drawPixmap(self.rect(), self.background_image)
 
 if __name__ == '__main__':
     # Create the application

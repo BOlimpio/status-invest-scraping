@@ -21,7 +21,6 @@ def scrape_fii_info(stock_code):
     }
     
     response = requests.get(url, headers=headers)
-        
 
     if response.status_code == 200:
         soup = BeautifulSoup(response.content, 'html.parser')
@@ -49,6 +48,14 @@ def scrape_fii_info(stock_code):
                 print(f"Could not find 'Dividend Yield' field for stock {stock_code}")
                 dy = None
             
+            dy_cagr_3_element = soup.select_one('h3.title:-soup-contains("DY CAGR") + strong.value')
+            if dy_cagr_3_element:
+                dy_cagr_3_value = dy_cagr_3_element.text.strip()
+            else:
+                print(f"Could not find 'DY CAGR 3 anos' field for stock {stock_code}")
+                dy_cagr_3_value = None
+
+
             # Extracting new fields for 'Último rendimento'
             ultimo_rendimento_element = soup.find(text='Último rendimento')
             if ultimo_rendimento_element:
@@ -81,7 +88,7 @@ def scrape_fii_info(stock_code):
                 proxima_cotacao_base = None
                 proxima_data_pagamento = None
             
-            return {'Code': stock_code, 'Price': price, 'P/VP': p_vp, 'DY %': dy,
+            return {'Code': stock_code, 'Price': price, 'P/VP': p_vp, 'DY %': dy, 'DY CAGR 5 anos': dy_cagr_3_value,
                     'Último Rendimento': ultimo_rendimento_value, 'Último Rendimento %': ultimo_rendimento_percentage, 'Ultima Cotação base' : ultima_cotacao_base, 'Ultima data de pagamento' : ultima_data_pagamento,
                     'Próximo Rendimento': proximo_rendimento_value, 'Próximo Rendimento %': proximo_rendimento_percentage, 'Próxima Cotação base' : proxima_cotacao_base, 'Próxima data de pagamento' : proxima_data_pagamento}
         
@@ -122,7 +129,7 @@ def save_to_excel(data, filename):
 
 
 # # List of FII codes to retrieve information for
-# fii_codes = ['HGLG11','JSRE11']
+# fii_codes = ['JSRE11']
 
 # # Scrape data for each FII and store it in a list
 # fii_data = []

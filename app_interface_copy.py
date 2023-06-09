@@ -9,7 +9,7 @@ class StockInfoApp(QWidget):
         super().__init__()
         self.setWindowTitle("Stock Info App")
         self.setWindowIcon(QIcon("icon.png"))  # Replace "icon.png" with your desired icon file
-        self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)  # Set window flags to disable maximize button
+
         self.fii_codes = []
 
         self.initUI()
@@ -120,7 +120,7 @@ class StockInfoApp(QWidget):
             }
         """)
 
-        self.setFixedSize(600, 400)
+        self.setMinimumSize(500, 400)
 
     def add_fii_code(self):
         entered_code = self.text_box.text().strip().upper()
@@ -163,7 +163,13 @@ class StockInfoApp(QWidget):
         self.fii_codes.remove(code)
         for i in reversed(range(layout.count())):
             layout.itemAt(i).widget().setParent(None)
-        layout.setParent(None)
+        layout.deleteLater()
+
+        # Remove empty line layout
+        if self.chips_layout.count() > 0:
+            last_line_layout = self.chips_layout.itemAt(self.chips_layout.count() - 1).layout()
+            if last_line_layout.count() == 0:
+                last_line_layout.deleteLater()
 
     def get_stock_info(self):
         if len(self.fii_codes) > 0:

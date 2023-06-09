@@ -121,15 +121,15 @@ def save_to_excel(data, filename):
         print(f"Failed to save data to Excel file. Error: {e}")
 
 
-# List of FII codes to retrieve information for
-fii_codes = ['HGLG11','JSRE11']
+# # List of FII codes to retrieve information for
+# fii_codes = ['HGLG11','JSRE11']
 
-# Scrape data for each FII and store it in a list
-fii_data = []
-for code in fii_codes:
-    stock_info = scrape_fii_info(code)
-    if stock_info:
-        fii_data.append(stock_info)
+# # Scrape data for each FII and store it in a list
+# fii_data = []
+# for code in fii_codes:
+#     stock_info = scrape_fii_info(code)
+#     if stock_info:
+#         fii_data.append(stock_info)
 
-# Save the data in an Excel file
-save_to_excel(fii_data, 'stock_info.xlsx')
+# # Save the data in an Excel file
+# save_to_excel(fii_data, 'stock_info.xlsx')

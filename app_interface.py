@@ -1,7 +1,7 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLineEdit, QPushButton, QLabel, QMessageBox, QScrollArea, QSizePolicy, QProgressBar
-from PyQt5.QtCore import Qt, QSize, pyqtSignal, QThread
-from PyQt5.QtGui import QIcon, QFont, QPixmap
+from PyQt5.QtCore import Qt, pyqtSignal, QThread
+from PyQt5.QtGui import QIcon, QFont
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLineEdit, QPushButton, QLabel, QMessageBox, QScrollArea, QSizePolicy, QProgressBar, QFileDialog
 from scrap_info import save_to_excel, scrape_fii_info
 
@@ -32,8 +32,8 @@ class StockInfoApp(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("FII Info App")
-        self.setWindowIcon(QIcon("image/money-bag.png"))  # Replace "icon.png" with your desired icon file
-        self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)  # Set window flags to disable maximize button
+        self.setWindowIcon(QIcon("image/money-bag.png"))
+        self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint) 
         self.fii_codes = []
 
         self.initUI()

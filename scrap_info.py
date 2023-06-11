@@ -126,24 +126,9 @@ def save_to_excel(data, filename):
                     elif p_vp_value < 1:
                         cell.fill = PatternFill(start_color="00FF00", end_color="00FF00", fill_type="solid")
 
-        # Save the workbook
         workbook.save(filename)
 
     except Exception as e:
         error_messages.append(f"Failed to save data to Excel file. Error: {e}")
     
     return error_messages
-
-
-# # List of FII codes to retrieve information for
-# fii_codes = ['JSRE11']
-
-# # Scrape data for each FII and store it in a list
-# fii_data = []
-# for code in fii_codes:
-#     stock_info = scrape_fii_info(code)
-#     if stock_info:
-#         fii_data.append(stock_info)
-
-# # Save the data in an Excel file
-# save_to_excel(fii_data, 'stock_info.xlsx')

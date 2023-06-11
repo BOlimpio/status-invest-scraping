@@ -31,7 +31,7 @@ class Worker(QThread):
 class StockInfoApp(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Stock Info App")
+        self.setWindowTitle("FII Info App")
         self.setWindowIcon(QIcon("image/money-bag.png"))  # Replace "icon.png" with your desired icon file
         self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)  # Set window flags to disable maximize button
         self.fii_codes = []

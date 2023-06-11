@@ -21,11 +21,12 @@ class Worker(QThread):
             stock_info = scrape_fii_info(code)
             if stock_info:
                 fii_data.append(stock_info)
-
+            
             progress = (index + 1) * 100 // total_fii_codes
             self.progress_updated.emit(progress)
 
         self.data_scraped.emit(fii_data)
+
 
 class StockInfoApp(QWidget):
     def __init__(self):
@@ -232,12 +233,23 @@ class StockInfoApp(QWidget):
 
         filename, _ = QFileDialog.getSaveFileName(self, "Save File", "", "Excel Files (*.xlsx)")
 
+        error_messages = []
+        for stock_data in data:
+            error_messages.extend(stock_data.pop('Messages', []))
+
+        if len(error_messages) > 0:
+            QMessageBox.warning(self, "Error Scraping Data", "\n".join(error_messages))
+
         if filename:
             try:
-                save_to_excel(data, f"{filename}.xlsx")
-                QMessageBox.information(self, "Data Saved", "Data saved successfully.")
+                save_errors = save_to_excel(data, f"{filename}.xlsx")
+                if len(save_errors) > 0:
+                    QMessageBox.warning(self, "Error Saving Data", "\n".join(save_errors))
+                else:
+                    QMessageBox.information(self, "Data Saved", "Data saved successfully.")
             except Exception as e:
                 QMessageBox.warning(self, "Error Saving Data", str(e))
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

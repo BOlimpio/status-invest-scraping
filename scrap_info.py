@@ -88,7 +88,7 @@ def scrape_fii_info(stock_code):
                 proxima_cotacao_base = None
                 proxima_data_pagamento = None
             
-            return {'Code': stock_code, 'Price': price, 'P/VP': p_vp, 'DY %': dy, 'DY CAGR 5 anos': dy_cagr_3_value,
+            return {'Code': stock_code, 'Price': price, 'P/VP': p_vp, 'DY %': dy, 'DY CAGR 3 anos': dy_cagr_3_value,
                     'Último Rendimento': ultimo_rendimento_value, 'Último Rendimento %': ultimo_rendimento_percentage, 'Ultima Cotação base' : ultima_cotacao_base, 'Ultima data de pagamento' : ultima_data_pagamento,
                     'Próximo Rendimento': proximo_rendimento_value, 'Próximo Rendimento %': proximo_rendimento_percentage, 'Próxima Cotação base' : proxima_cotacao_base, 'Próxima data de pagamento' : proxima_data_pagamento}
         
@@ -110,8 +110,11 @@ def save_to_excel(data, filename):
         # Get the active sheet
         sheet = workbook.active
 
+        # Find the index of the "P/VP" column
+        p_vp_index = df.columns.get_loc("P/VP")
+
         # Apply styling to "P/VP" column based on the rule
-        for row in sheet.iter_rows(min_row=2, min_col=3, max_col=3):
+        for row in sheet.iter_rows(min_row=2, min_col=p_vp_index+1, max_col=p_vp_index+1):
             for cell in row:
                 if cell.value is not None:
                     p_vp_value = float(cell.value.replace(',', '.'))

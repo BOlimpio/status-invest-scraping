@@ -234,7 +234,7 @@ class StockInfoApp(QWidget):
 
         if filename:
             try:
-                save_to_excel(f"{data}.xlsx", filename)
+                save_to_excel(data, f"{filename}.xlsx")
                 QMessageBox.information(self, "Data Saved", "Data saved successfully.")
             except Exception as e:
                 QMessageBox.warning(self, "Error Saving Data", str(e))

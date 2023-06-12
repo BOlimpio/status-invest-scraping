@@ -36,6 +36,17 @@ pip install -r requirements.txt
 8. Click "OK" to dismiss the warning messages.
 9. The application can be closed by clicking the close button or pressing the "Esc" key.
 
+## Indicators
+
+- Price
+- P/VP
+- DY 
+- DY CAGR 3 years
+- Last DY in value and percentage
+- Last price on the last yield
+- Next DY in value and percentage
+- Next price on next yield
+
 ## Notes :warning:
 
 - The script assumes the website structure remains the same. If there are any changes to the website's HTML structure or class names, the script may need to be updated accordingly.

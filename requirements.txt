@@ -1,8 +1,6 @@
 requests
 numpy
 setuptools
-python3-dev 
-build-essential
 PyQt5
 beautifulsoup4==4.9.3
 pandas==1.2.4

@@ -17,6 +17,15 @@ pip install -r requirements.txt
 
 ## Usage
 
+### Option 1: Download the Release and Executable
+1. Go to the [Releases](https://github.com/BOlimpio/status-invest-scraping/releases) section of this repository.
+2. Download the latest release package for your operating system (Windows, Linux, etc.).
+3. Extract the downloaded package to a desired location on your computer.
+4. Open the extracted folder.
+5. Launch the FII Info App by running the executable file (e.g., app.exe on Windows).
+6. Follow the on-screen instructions to use the app.
+
+### Option 2: Download the source code
 1. Launch the FII Info App by running the `app.py` script.
 2. Enter the FII codes in the provided text box and click enter after each FII code to add them.
 3. Press the "Get Information" button to retrieve the information for the entered codes.

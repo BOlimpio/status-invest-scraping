@@ -32,7 +32,7 @@ class StockInfoApp(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("FII Info App")
-        self.setWindowIcon(QIcon("image/money-bag.png"))
+        self.setWindowIcon(QIcon("image/money-bag.ico"))
         self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint) 
         self.fii_codes = []
 
